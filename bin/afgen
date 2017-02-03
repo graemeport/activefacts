@@ -11,6 +11,8 @@ $:.unshift File.dirname(File.expand_path(__FILE__))+"/../lib"
 require 'activefacts'
 require 'activefacts/metamodel'
 
+EXTENSIONS = ['fiml', 'fidl', 'fiql', 'cql']
+
 # Load the generators:
 generators = []
 arg = ARGV.shift || "--help"
@@ -32,6 +34,9 @@ end
 if arg
   arg, *options = *arg.split(/=/)
   extension = arg.sub(/\A.*\./,'').downcase
+  if EXTENSIONS.detect { |e| extension == e }
+    extension = "cql"
+  end
   input_handler = "activefacts/input/#{extension}"
   require input_handler
 
